@@ -2,15 +2,20 @@
 <html ng-app="demoApp">
 <head>
 	<title></title>
-	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
-    <link href="bootstrap.css" rel="stylesheet">
+	<!--<script type="text/javascript" src="jquery-1.8.3.min.js"></script>-->
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>-->
+	<script src="https://code.jquery.com/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="angular-1.5.6.js"></script>
+    <!--<link href="bootstrap.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
    
 	<style type="text/css">
+		.my-table{
+			margin-top: 200px;
+			cursor: pointer;
+		}
 		
-
-		
-
 	</style>
 </head>
 <body>
@@ -18,63 +23,52 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div ng-repeat="city in cityList" class="col-lg-2 col-md-2 col-sm-2">
-					<table class="table table-striped table-bordered">
+					<table ng-click="selectCityHandler($event)" cityid="{{city.id}}" class="table table-striped table-bordered my-table">
 						<tr>
-							<td>
-								name
-							</td>
-							<td>
-								{{city.name}}
-							</td>
+							<td>name</td>
+							<td>{{city.name}}</td>
 						</tr>
 						<tr>
-							<td>
-								weather
-							</td>
-							<td>
-								{{city.description}}
-							</td>
+							<td>weather</td>
+							<td>{{city.weather}}</td>
 						</tr>
 						<tr>
-							<td>
-								humidity
-							</td>
-							<td>
-								{{city.humidity}}
-							</td>
+							<td>humidity</td>
+							<td>{{city.humidity}}</td>
 						</tr>
 						<tr>
-							<td>
-								pressure
-							</td>
-							<td>
-								{{city.pressure}}
-							</td>
+							<td>pressure</td>
+							<td>{{city.pressure}}</td>
 						</tr>
 						<tr>
-							<td>
-								sunrise
-							</td>
-							<td>
-								{{city.sunrise}}
-							</td>
+							<td>sunrise</td>
+							<td>{{city.sunrise}}</td>
 						</tr>
 						<tr>
-							<td>
-								sunset
-							</td>
-							<td>
-								{{city.sunset}}
-							</td>
+							<td>sunset</td>
+							<td>{{city.sunset}}</td>
 						</tr>
 					</table>
 				</div>
-				
-				
 			</div>
+		</div>
+		<div class="chart-container">
+			
 		</div>
 	</div>
 	<script type="text/javascript">
+		function timeConverter(UNIX_timestamp){
+			var a = new Date(UNIX_timestamp * 1000);
+			var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+			var year = a.getFullYear();
+			var month = months[a.getMonth()];
+			var date = a.getDate();
+			var hour = a.getHours();
+			var min = a.getMinutes();
+			var sec = a.getSeconds();
+			var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+			return time;
+		}
 		var app = angular.module('demoApp', []);
 		app.controller('DemoCtrl',  function ($scope, $http) {
 			$http({
@@ -82,16 +76,37 @@
 			  url: 'http://api.openweathermap.org/data/2.5/group?id=524901,703448,2643743,2643123,6356055&units=metric&appid=3d8b309701a13f65b660fa2c64cdc517'
 			}).then(function successCallback(response) {
 			    $scope.cityList = response.data.list.map(function(item){
-			    	return{
+			    	return {
 			    		name: item.name,
-			    		wether: item.weather[0].description,
+			    		id: item.id,
+			    		weather: item.weather[0].description,
 			    		humidity: item.main.humidity,
 			    		pressure: item.main.pressure,
-			    		sunrise: (new Date(item.sys.sunrise)).toLocaleTimeString(),
-			    		sunset: (new Date(item.sys.sunset)).toLocaleTimeString()
+			    		sunrise: timeConverter(item.sys.sunrise),
+			    		sunset: timeConverter(item.sys.sunset)
 			    	}
 			    });
 			});
+
+
+			$scope.selectCityHandler = function($event){
+				var cid = $event.currentTarget.getAttribute("cityid");
+
+				$http({
+				  method: 'GET',
+				  url: 'http://api.openweathermap.org/data/2.5/forecast/daily?id=' + cid + '&appid=3d8b309701a13f65b660fa2c64cdc517&cnt=16'
+				}).then(function successCallback(response) {
+				    var list = response.data.list.map(function(item){
+				    	return {
+				    		dt: timeConverter(item.dt),
+				    		pressure: item.pressure
+				    	}
+				    });
+				    var x = 1;
+				});
+			};
+
+
 		  
 		});
 	</script>
