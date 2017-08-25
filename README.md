@@ -21,7 +21,7 @@
 - CSS position
 - CSS float
 - clear float
-  + `clear:both`
+  + `clear: both`
   + `overflow: auto`
 - CSS伪类和伪元素
 - margin collapsing
