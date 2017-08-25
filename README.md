@@ -20,7 +20,11 @@
 - 行内元素和块元素
 - CSS position
 - CSS float
+- clear float
+  + `clear:both`
+  + `overflow: auto`
 - CSS伪类和伪元素
+- margin collapsing
 - CSS layout(table, bootstrap grid, flex, grid)
 - CSS 圆角，渐变和阴影
 - CSS web font, awsome font
