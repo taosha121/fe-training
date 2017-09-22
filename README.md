@@ -45,7 +45,13 @@ test 0909
 - 基本语法
   - 变量与命名提升(hoisting)
   - 基本数据类型与包装数据类型
-  - 赋值操作符，运算操作符
+  - Operators
+    - Arithmetic Operators(`+`, `-`, `*`, `/`, `%`, `++` `--`)
+    - Assignment Operators(`=`, `+=`, `-=`, `*=`, `/=`, `%=`)
+    - String Operators(`+`)
+    - Comparison Operators(`==`, `===`, `!=`, `!==`, `>`, `<`, `>=`, `<=`, `?`)
+    - Logical Operators(`&&`, `||`, `!`)
+    - Type Operators(`typeof`, `instanceof`)
   - 循环
 - Function
 - Object
