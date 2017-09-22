@@ -52,6 +52,7 @@ test 0909
     - Comparison Operators(`==`, `===`, `!=`, `!==`, `>`, `<`, `>=`, `<=`, `?`)
     - Logical Operators(`&&`, `||`, `!`)
     - Type Operators(`typeof`, `instanceof`)
+    - Bitwise Operators(`&`, `|`, '~', `^`, `<<`, `>>`, `>>>`)
   - 循环
 - Function
 - Object
